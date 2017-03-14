@@ -105,7 +105,7 @@ Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的�
 双击运行，在浏览器中查看结果
 
 
-###6. 获取路由参数
+### 6. 获取路由参数
 
 <pre>
   例如 路由地址 #/test/index/test4/123 ，
@@ -120,7 +120,244 @@ Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的�
 </pre>
 
 
+## 第二部分，高级示例
 
+### 1. 使用视图模板
+
+在介绍使用视图功能之前，我们先介绍一下使用Alpaca-Spa.js推荐的目录结构。
+
+注： 使用alpaca.js推荐的目录结构，需要使用web服务器，例如apache, nginx等，将网站的根目录设置为下图的alpacaSpaDemo目录
+
+实例中使用的web服务器将 127.0.0.33 地址指向了alpacaSpaDemo目录
+
+
+![图片名称](http://www.tkc8.com/index_files/Image%20[4].png)
+
+参考上图，
+
+<pre>
+1. 图中的 alpacaSpaDemo是所有文件的根目录。
+
+2. alpacaSpaDemo目录里面有两个子目录，三个html文件。
+   common                        common目录是用来放公共资源，本示例中不使用。
+   test                                 test目录是代表一个模块，在本示例中用来帮助大家熟悉视图模板的使用。
+   index-view.html            本示例中，我们使用index-view.html文件。
+   index.html                     示例一使用的文件
+   index-router-hl.html     示例二使用的文件
+
+3.test 目录里面有两个目录 controller ， view。一个js文件
+   controller   用来存放test模块的控制器的js代码。里面有一个控制器js文件，index.js
+   view            用来存放test模块的视图部分的js代码。里面有一个子目录index，index目录用户存放index控制器对应的模板。本示例中，有两个模板test3.html. test4.html
+   test.js          test.js是test模块的模块级别的js代码。稍后会介绍里面可以填写哪些内容。
+</pre>
+
+下面介绍本示例的具体代码
+
+1 alpacaSpaDemo/index-view.html 的代码如下
+
+注意引用 test/test.js，test/controller/index.js
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alpaca-Spa</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+    <script src="http://spa.tkc8.com/common/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js" type="text/javascript"></script>
+
+    <script src="test/test.js" type="text/javascript"></script>
+    <script src="test/controller/index.js" type="text/javascript"></script>
+
+    <script>
+        $().ready(function(){
+            Alpaca.run();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
+
+```
+
+2 alpacaSpaDemo/test/test.js 的代码如下,本实例中，我们只是定义了一个模块
+
+```
+/* 1 定义模块 */
+Alpaca.TestModule = {};
+
+```
+
+3 alpacaSpaDemo/test/controller/index.js 的代码如下,本实例中，定义了两个action，每个action中，分别 使用了 return new View（）；用来返回页面模板。默认情况下返回文件名与Action名相同的模板文件。
+
+```
+/* 1 定义Test模块中的Controller ,并且定义两个action方法，test1，test2*/
+Alpaca.TestModule.IndexController = {
+   test3Action : function (){
+      return new View();
+   },
+
+   test4Action : function (){
+      return new View();
+   },
+};
+```
+4 alpacaSpaDemo/test/view/index/test3.html代码 ， 访问相应的url之后，test3.html中内容会被填充到<body></body>中，后面会介绍如何使模板内容渲染到页面其他位置。
+
+```
+<div> This is View for test3 </div>
+```
+
+5 alpacaSpaDemo/test/view/index/test4.html代码 ， 访问相应的url之后，test3.html中内容会被填充到<body></body>中，后面会介绍如何使模板内容渲染到页面其他位置。
+
+```
+<div> This is View for test4 </div>
+
+```
+
+
+在浏览器中访问url  http://127.0.0.33/index-view.html#/test/index/test3 ， http://127.0.0.33/index-view.html#/test/index/test4
+
+
+在上面的例子中，我们发现，Action中使用 return new View( ) 方法可以默认返回一个与Action同名的视图模板，并且，将该视图模板渲染到了页面中的<body></body>中。
+
+
+
+## 第三部分，高级视图使用方法
+
+### 1. 向视图模板中传递数据
+
+Controller中代码如下： 使用  View({name:'Cheng'}); 或者 view.setData({name:'Sponge'}); ，向相应的模板中传递数据。
+
+```
+Alpaca.TestModule.IndexController = {
+    test3Action : function (){
+        var view = new Alpaca.View({data:{name:'Cheng'}});
+        return view;
+    },
+
+    test4Action : function (){
+        var view = new Alpaca.View();
+        view.setData({name:'Sponge'});
+        return view;
+    },
+};
+
+```
+
+在模板中，使用数据渲染语句处理传递过来的数据。例如在，test3.html中 代码如下：
+
+```
+<div> This is View for test3 .Name <?spa echo it.name ?></div>
+```
+
+浏览器中运行结果如下：
+
+
+当然，可以使用其他的复杂语法，来渲染复杂的数据、页面。
+
+
+### 2.自定义模板视图的渲染位置
+
+使用 setCaptureTo("#destination") 方法可以指定渲染位置
+
+```
+var view = new Alpaca.View();
+view.setCaptureTo("#destination");
+return view;
+
+```
+
+### 3.使用Layout（公共）模板
+
+使用 setUseLayout(true) 方法，为视图指定默认的layout模板。使用Layout模板时，Layout默认会被渲染到<body></body>， Action返回的视图默认会被渲染到 <div id="content"></div> 中。
+
+```
+var view = new View({data:{name:'Cheneg'}});
+view.setUseLayout(true);
+return view;
+```
+
+默认layout模板的位置位于 模块目录/view/layout/layout.html
+
+
+
+
+关于自定义layout部分内容，在以后的章节中介绍。
+
+
+### 4.使用子视图模板
+
+使用   ```new ViewPart('leftMenu',"#id-left-menu"); ``` 创建一个名为leftMenu，渲染到#id-left-men位置的子视图。子视图模板的默认位置位于目录： 模块 /view/layout/part/ 中，文件名默认与子视图的名字相同，例如，在本示例中为 leftMenu.html
+
+```
+var view = new Alpaca.View({data: {name: 'Sponge'}});
+var part = new Alpaca.Part({name: 'leftMenu'});
+view.addChild(part);
+return view;
+```
+模板位置：
+
+
+关于自定义part部分内容，在以后的章节中介绍。
+
+### 5.view.ready()方法，视图渲染结束后执行的方法
+
+通过指定view的ready方法，可以实现视图渲染结束后执行的方法，建议把模板中js代码部分写到这里。
+
+```
+var view = new Alpaca.View({data: {name: 'Sponge'}});
+view.ready(function(){
+    alert('ready');
+});
+return view;
+```
+
+### 6.模块 init（） 方法。
+
+执行当前模块中所有Action之前，会执行模块的init（）方法
+
+### 7.控制器 init（） 方法。
+
+执行当前控制器中所有Action之前，会执行模块的init（）方法
+
+
+### 8. 自定义视图显示效果
+
+下面的示例代码，实现了视图渲染后的闪入效果
+
+```
+var view = new Alpaca.View({data: {name: 'Sponge'}});
+view.show=function (captureTo, html) {
+    var that = this;
+    $(captureTo).fadeOut("fast", function () {
+        $(captureTo).html(html);
+        $(captureTo).fadeIn("fast", function () {
+            that.onLoad();
+        });
+    });
+};
+return view;
+
+```
+可以看出，通过使用 view的 show方法可以自定义视图的渲染效果。
+
+注意，在自定义视图显示效果时，视图渲染结束后需要调用 onLaod 事件，来触发ready函数。
+
+
+[未完待完善中 。。。]
+
+
+交流方式：
+
+QQ群： 298420174
+
+![图片名称](http://www.tkc8.com/index_files/Image%20[10].png)
+
+作者： Sponge
+邮箱： 1796512918@qq.com
 
 
 
