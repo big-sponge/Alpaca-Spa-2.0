@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alpaca-Spa-2.0 JS</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+    <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="/common/alpaca-spa-2.0.js" type="text/javascript"></script>
+
+    <!-- 引用test模块 -->
+    <script src="/test/test.js" type="text/javascript"></script>
+    <script src="/test/controller/index.js" type="text/javascript"></script>
+
+    <!--开始Alpaca-->
+    <script>
+        $().ready(function () {
+
+            //默认运行test模块中index控制器,index方法
+            Alpaca.run("#/test/index/index");
+        });
+    </script>
+</head>
+<body>
+<div id="template" style="display: none;"> template: name </div>
+<div id="content"></div>
+</body>
+</html>
