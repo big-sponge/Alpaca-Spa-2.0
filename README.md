@@ -110,7 +110,7 @@ Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的�
 ```
    var data = {name:" Hello World! "};
    Alpaca.Tpl({data:data,place:'body'});
-   
+
 ```
 
 ### 6. 获取路由参数
@@ -298,7 +298,7 @@ return view;
 
 ### 4.使用子视图模板
 
-使用   ```new ViewPart('leftMenu',"#id-left-menu"); ``` 创建一个名为leftMenu，渲染到#id-left-men位置的子视图。子视图模板的默认位置位于目录： 模块 /view/layout/part/ 中，文件名默认与子视图的名字相同，例如，在本示例中为 leftMenu.html
+使用   ``` new Alpaca.Part({name: 'leftMenu'}); ``` 创建一个名为leftMenu，渲染到#创建一个名为leftMenu位置的part视图。子视图模板的默认位置位于目录： 模块 /view/layout/part/ 中，文件名默认与子视图的名字相同，例如，在本示例中为 leftMenu.html
 
 ```
 var view = new Alpaca.View({data: {name: 'Sponge'}});
