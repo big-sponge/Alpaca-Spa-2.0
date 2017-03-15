@@ -107,8 +107,10 @@ Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的�
 
 模板位置和要渲染的位置一样的时候，可以直接使用place 指定位置，而不用from，to,注意这中情况建议使用 {{ XXX }} 语法格式
 
-```var data = {name:" Hello World! "};
+```
+   var data = {name:" Hello World! "};
    Alpaca.Tpl({data:data,place:'body'});
+   
 ```
 
 ### 6. 获取路由参数
