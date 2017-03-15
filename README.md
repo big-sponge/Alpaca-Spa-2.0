@@ -57,7 +57,7 @@
 
 ### 5. 示例，使用模板，渲染数据
 
-Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的表现形式。Alpaca 支持 {{ XXX }}, 与<?spa XXX  ?>两种语法格式
+Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的表现形式。Alpaca 支持 {{ XXX }}, 与\<?spa XXX  ?\>两种语法格式
 
 新建html文件，编辑下面的代码内容。在下面的代码中，我们使用了  Alpaca.Tpl( option ) 方法，其中参数option.data是要渲染的数据，option.from 是模板的位置，option.to 是渲染的目标位置。
 
@@ -110,6 +110,13 @@ Alpaca-spa.js使用了dot.js数据模板引擎，并且优化了部分语法的�
 ```
    var data = {name:" Hello World! "};
    Alpaca.Tpl({data:data,place:'body'});
+
+```
+
+```
+<body>
+{{=it.name}}
+</body>
 
 ```
 
