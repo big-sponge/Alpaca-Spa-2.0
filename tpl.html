@@ -27,20 +27,26 @@
 
     <script>
         $().ready(function () {
-            var data = {name:" Hello World! "};
 
-            Alpaca.Tpl({data:data,place:'#text'});
+            var data = {name:" Hello World! "};
+            Alpaca.Tpl({data:{name:" Hello World! "}});
+
+
+
             Alpaca.Tpl({data:data,from:'#template',to:'#content'});
 
             var data2 = {"name": "Cheng", "age": 26 ,like:['Coding','thinking','eating'],isMan:true };
             Alpaca.Tpl( {data:data2 ,from:"#template2", to:"#content2" });
+
+
+            Alpaca.Tpl( {data:data ,template:"/test.html", to:"#content2"});
         });
     </script>
 
 </head>
 <body>
 
-<div id="text">welcome to use Alpaca, Name: {{=it.name}}</div>
+<!--<div id="text">welcome to use Alpaca, Name: {{=it.name}}</div>-->
 <div id="template" style="display: none;">template: name {{=it.name}}</div>
 <div id="content"></div>
 <div id="content2"></div>
