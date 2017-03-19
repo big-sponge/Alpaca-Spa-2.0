@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alpaca-Spa-2.0 JS</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+    <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="/alpaca-spa-2.0.js" type="text/javascript"></script>
+
+    <script>
+        //定义index模块
+        Alpaca.IndexModule = {};
+        //定义index控制器
+        Alpaca.IndexModule.IndexController={
+            //定义index动作
+            indexAction:function(){
+                Alpaca.Tpl({data:{title:"Test Router:"},place:"body"});
+            },
+
+            //定义index2动作
+            index2Action:function(){
+                $('#index2-content').html("调用index2！");
+            }
+        };
+    </script>
+
+    <script>
+        $().ready(function () {
+            Alpaca.run("#/index/index/index");
+        });
+    </script>
+
+</head>
+<body>
+<h4>{{= it.title}}</h4>
+<a onclick='Alpaca.to("#/index/index/index2")'>点我执行index2</a>
+<div id="index2-content"></div>
+</body>
+</html>

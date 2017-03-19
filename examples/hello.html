@@ -7,16 +7,14 @@
     <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="/alpaca-spa-2.0.js" type="text/javascript"></script>
 
-    <script src="/index/index.js" type="text/javascript"></script>
-    <script src="/index/controller/index.js" type="text/javascript"></script>
-
     <script>
         $().ready(function () {
-            Alpaca.run("#/index/index/index");
+            Alpaca.Tpl({data:{text:'Alpaca'},place:'body'});
         });
     </script>
+
 </head>
 <body>
-<div id="content"> </div>
+hello {{=it.text}} !
 </body>
 </html>

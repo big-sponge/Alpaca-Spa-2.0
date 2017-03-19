@@ -7,16 +7,26 @@
     <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="/alpaca-spa-2.0.js" type="text/javascript"></script>
 
-    <script src="/index/index.js" type="text/javascript"></script>
-    <script src="/index/controller/index.js" type="text/javascript"></script>
+    <script>
+        //定义index模块
+        Alpaca.IndexModule = {};
+        //定义index控制器
+        Alpaca.IndexModule.IndexController={
+            //定义index动作
+            indexAction:function(){
+                document.write("Hello I'm your default Router.")
+            },
+        };
+    </script>
 
     <script>
         $().ready(function () {
             Alpaca.run("#/index/index/index");
         });
     </script>
+
 </head>
 <body>
-<div id="content"> </div>
+
 </body>
 </html>
