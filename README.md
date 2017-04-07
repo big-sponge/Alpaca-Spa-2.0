@@ -4,7 +4,7 @@
 
 ### Alpaca-spa-2.0.js 简介
 
-&emsp;&emsp;Alpaca-spa.js是一款轻量的前端JS框架，提供前端**路由**功能，前端**视图渲染**功能，前端**套页面**功能。目的是用来提高web项目的开发效率，前后端分离开发，同时使前端代码结构更加整洁。<br>
+&emsp;&emsp;Alpaca-spa.js是一款轻量的前端JS框架，提供前端**路由**功能，前端**视图渲染**功能，前端**套页面**功能。目的是用来提高web项目的开发效率，前后端分离开发，同时使前端代码结构更加整洁。 
 
 &emsp;&emsp;Alpaca-spa.js 区别于其他框架的主要特点是轻巧灵活，**学习成本低**。框架没有复杂的概念与特性，几乎都是最基本的JavaScript语法，也就是说读者只要有JavaScript语言基础，就能很快学会使用 Alpaca-spa.js框架。
 
@@ -13,12 +13,12 @@
 ### 1. 引用Alpaca-spa-2.0.js
     Alpaca-spa-2.0.js 目前依赖于  jquery.js。使用Alpaca-spa-2.0.js 需要引用
 
-<pre>
+```
 1). jquery.js
-    下载地址（或者直接在代码中引用）：http://spa.tkc8.com/common/js/jquery-2.1.4.min.js<br>
+    下载地址（或者直接在代码中引用）：http://spa.tkc8.com/common/js/jquery-2.1.4.min.js 
 2). Alpaca-spa-2.0.js&emsp;
     下载地址（或者直接在代码中引用）：http://spa.tkc8.com/common/js/alpaca-spa-2.0.js
-</pre>
+```
 
 ### 2. 示例： Hello Alpaca
 
@@ -48,15 +48,15 @@ hello {{=it.text}} !
 
 ```
 结果如下
-<pre>
+```
 hello Alpaca !
-</pre>
+```
 
-&emsp;&emsp;示例中的Alpaca.Tpl( )方法，传递了一个对象作为参数，对像中有两个属性，data表示要传递的数据（对象格式），place表示要渲染的位置。<br>
+&emsp;&emsp;示例中的Alpaca.Tpl( )方法，传递了一个对象作为参数，对像中有两个属性，data表示要传递的数据（对象格式），place表示要渲染的位置。 
 
-&emsp;&emsp;通过上面的示例可以发现 页面body元素中的 {{=it.text}}被替换成为了 参数data中的text字段，也就是“Alpaca”，从而达到了渲染数据的效果。<br>
+&emsp;&emsp;通过上面的示例可以发现 页面body元素中的 {{=it.text}}被替换成为了 参数data中的text字段，也就是“Alpaca”，从而达到了渲染数据的效果。 
 
-&emsp;&emsp;**注**， 模板中的 it 是固定关键字，代表传递过来的数据对象。关于Alpaca.Tpl( )方法的详细用法，后续章节会做详细介绍。<br>
+&emsp;&emsp;**注**， 模板中的 it 是固定关键字，代表传递过来的数据对象。关于Alpaca.Tpl( )方法的详细用法，后续章节会做详细介绍。 
 
 
 ### 3. 示例：使用路由
@@ -87,9 +87,9 @@ hello Alpaca !
 
 ```
 结果如下，表示Alpaca路由运行成功
-<pre>
+```
 Welcome use Alpaca-spa 2.0 !
-</pre>
+```
 
 
 新建文件router-index.html。在文件中编辑以下内容代码。
@@ -136,16 +136,16 @@ Welcome use Alpaca-spa 2.0 !
 在浏览器中输入http://127.0.0.1/examples/router-index.html#/index/index/index
 
 结果弹出提示框：
-<pre>
+```
 Hello Router
-</pre>
+```
 
 在浏览器中输入http://127.0.0.1/examples/router-index.html#/index/index/index2
 
 页面中显示：
-<pre>
+```
 Hello Alpaca.
-</pre>
+```
 
 通过上面两个例子，可以发现，Url中 :
 
@@ -228,10 +228,10 @@ Hello Alpaca.
 ```
 示例中的Alpaca.Tpl( )方法，传递了一个对象作为参数，对像中有三个属性，data表示要传递的数据（对象格式），from表示模板元素，to表示要渲染的位置。在浏览器中运行这个页面，结果如下：
 
-<pre>
+```
 Name:Cheng!
 Age:26!
-</pre>
+```
 
 ### 3. 循环
 
@@ -284,7 +284,7 @@ Age:26!
 ```
 结果如下：
 
-<pre>
+```
 0:
 支付方式：支付宝
 支付金额：125
@@ -293,7 +293,7 @@ Age:26!
 支付方式：微信
 支付金额：130
 支付时间：2016-10-12
-</pre>
+```
 
 ### 4. 条件判断
 
@@ -338,7 +338,9 @@ Age:26!
 
 ```
 输出结果：
-<pre>条件为true的情况</pre>
+```
+条件为true的情况
+```
 
 
 ### 5. Alpaca.Tpl()方法
@@ -405,7 +407,7 @@ Alpaca.Tpl(option) 是一个用来渲染页面的方法，接受一个对象参�
 
 输出结果：
 
-<pre>Welcome to Alpaca-spa!</pre>
+```Welcome to Alpaca-spa!```
 
 **使用参数：place：**
 
@@ -429,10 +431,10 @@ Alpaca.Tpl(option) 是一个用来渲染页面的方法，接受一个对象参�
 </html>
 ```
 输出结果：
-<pre>
+```
 This is Alpaca-spa!
 template：
-</pre>
+```
 
 **使用参数：template：**
 
@@ -472,9 +474,9 @@ test-template.html 文件是用来测试该示例的页面，内容如下：
 ```
 
 在浏览器中访问test-template.html页面，输出结果：
-<pre>
+```
 This is Alpaca-spa.
-</pre>
+```
 
 通过上面的示例，可以发现template.html中的内容被渲染到了当前页面。
 
@@ -529,16 +531,16 @@ This is Alpaca-spa.
 在浏览器中输入http://127.0.0.1/examples/router-index.html#/index/index/index
 
 结果弹出提示框：
-<pre>
+```
 Hello Router
-</pre>
+```
 
 在浏览器中输入http://127.0.0.1/examples/router-index.html#/index/index/index2
 
 页面中显示：
-<pre>
+```
 Hello Alpaca.
-</pre>
+```
 
 可以发现，Url中hash的映射关系 :
 
@@ -609,11 +611,11 @@ $().ready(function () {
 ```
 在浏览期中打开页面，结果如下：
 
-<pre>
+```
 Welcome use Alpaca-spa 2.0 !
-</pre>
+```
 
-这是因为当Alpaca.run()方法中的参数为空时，调用了Alpaca-Spa.js的内置默认路由:#/alpaca/alpaca/index , 对应方法： Alpaca.AlpacaModule.AlpacaController.indexAction()。 这个方法在页面中输出了: ``` Welcome use Alpaca-spa 2.0 ! ```
+这是因为当Alpaca.run()方法中的参数为空时，调用了Alpaca-Spa.js的内置默认路由:#/alpaca/alpaca/index , 对应方法： Alpaca.AlpacaModule.AlpacaController.indexAction()。 这个方法在页面中输出了: ```  Welcome use Alpaca-spa 2.0 !  ```
 
 下面示例如何修改页面加载时的默认路由：
 
@@ -654,9 +656,9 @@ Welcome use Alpaca-spa 2.0 !
 ```
 浏览器中打开页面，结果如下：
 
-<pre>
+```
 Hello I'm your default Router.
-</pre>
+```
 
 通过上面的示例，可以看出为Alpaca.run()方法传递一个参数"#/index/index/index"，就可以改变页面加载时执行默认的路由了。上面的示例中，我们将默认路由改为了#/index/index/index。
 
@@ -708,11 +710,11 @@ Hello I'm your default Router.
 ```
 在浏览器中运行该页面，然后点击“点我执行index2”，结果如下：
 
-<pre>
+```
 <h4>Test Router:</h4>
 点我执行index2
 调用index2！
-</pre>
+```
 
 通过上面的示例，可以看出Alpaca.to()方法的作用是调用路由。
 
@@ -761,11 +763,11 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
 ```
 在浏览器中运行该页面，然后点击“点我执行index2”，结果如下：
 
-<pre>
+```
 <h4>Test Router:</h4>
 点我执行index2
 调用index2: hello alpaca!
-</pre>
+```
 
 通过上面的示例，可以看出动作index2对应的方法可以接受一个参数data，这个data就是Alpaca.to(router,data)方法传递过去的data对象。
 
@@ -803,7 +805,7 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
   　  test.js
    index.html
 ```
-<pre>
+```
 1. 示例中的application是项目的根目录，应该将web服务器的根目录设置为此目录。
 
 2. application目录下面有两个子目录，1个html文件。
@@ -823,7 +825,7 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
                 推荐在这个文件里面做模块的定义，例如：Alpaca.IndexModule = {};
 
 4.test目录与index目录同理
-</pre>
+```
 
 ### 2 使用View
 
@@ -887,9 +889,9 @@ hello View !!
 
 在浏览器中，访问网站根目录下的index.html，结果如下：
 
-<pre>
+```
 hello View !
-</pre>
+```
 
 &emsp;&emsp;上面的示例中，我们创建了index模块，index控制器，index动作，并且在indexAction中通过Alpaca.View()方法创建了一个视图，运行结果是视图模板中的内容被渲染到了页面的#content位置中。这就是Alpaca.View()的用途。
 
@@ -997,14 +999,14 @@ application/index/view/layout/part/leftMenu.html 文件中的内容为：
 
 在浏览器中访问index.html#/index/index/test,结果如下：
 
-<pre>
+```
 
 This layout ! 666
 
 This is View for test action
 This is View for leftMenu (part view) 888
 
-</pre>
+```
 
 上面的示例演示了如何使用 layout、part来渲染复杂页面。
 
@@ -1126,7 +1128,7 @@ Alpaca.IndexModule.TestController = {
 
 ##  内置对象与方法
 
-<pre> 【编写中 。。。】 </pre>
+
 
 ##  交流方式
 
@@ -1138,29 +1140,4 @@ QQ群： 298420174
 
 作者： Sponge
 邮箱： 1796512918@qq.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

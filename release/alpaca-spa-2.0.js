@@ -158,7 +158,7 @@ Router = function () {
 
     /* 执行模块或者控制器中的init方法，该方法在action方法之前执行 */
     obj.init = function () {
-        //执行模块init方法，如果该方法存在
+        /* 执行模块init方法，如果该方法存在 */
         var moduleResult = undefined;
         if (eval(this.ModuleFullName) && eval(this.ModuleFullName + ".init")) {
             moduleResult = eval(this.ModuleFullName + ".init" + "()");
@@ -167,7 +167,7 @@ Router = function () {
             return moduleResult;
         }
 
-        //执行控制器init方法，如果该方法存在
+        /* 执行控制器init方法，如果该方法存在 */
         var controllerResult = undefined;
         if (eval(this.ModuleFullName) && eval(this.ControllerFullName) && eval(this.ControllerFullName + ".init")) {
             controllerResult = eval(this.ControllerFullName + ".init" + "()");
@@ -182,12 +182,12 @@ Router = function () {
     /* 执行模块或者控制器中的release方法，该方法在action方法之前执行 */
     obj.release = function () {
 
-        //执行控制器release方法，如果该方法存在
+        /* 执行控制器release方法，如果该方法存在 */
         if (eval(this.ModuleFullName) && eval(this.ControllerFullName) && eval(this.ControllerFullName + ".release")) {
             eval(this.ControllerFullName + ".release" + "()");
         }
 
-        //执行模块release方法，如果该方法存在
+        /* 执行模块release方法，如果该方法存在 */
         if (eval(this.ModuleFullName) && eval(this.ModuleFullName + ".release")) {
             eval(this.ModuleFullName + ".release" + "()");
         }
@@ -221,10 +221,10 @@ Router = function () {
         if (result) {
             result.display();
         }
-        //执行分发后的事件
+        /* 执行分发后的事件 */
         this.release();
 
-        //返回结果
+        /* 返回结果 */
         return result;
     };
 
@@ -266,36 +266,36 @@ ViewModel = function () {
     /* 模板文件默认扩展名 */
     obj.TemplatePostfix = 'html';
 
-    //* 对应的alpaca对象 */
+    /* 对应的alpaca对象 */
     obj.Alpaca = {};
 
     /* 创建视图模板 */
     obj.create = function () {
 
-        //定义对象，
+        /*定义对象，*/
         var view = {};
 
-        //对应的Alpaca
+        /*对应的Alpaca*/
         view.Alpaca = this.Alpaca;
 
-        //名字,默认时action的名字
+        /*名字,默认时action的名字*/
         view.Name = (function () {
-            //如果没有路由，直接返回
+            /* 如果没有路由，直接返回 */
             if (!view.Alpaca.Router) {
                 return '';
             }
             return view.Alpaca.Router.Action;
         }());
 
-        //模板路径 - 设置默认模板路径
+        /*模板路径 - 设置默认模板路径*/
         view.Template = (function () {
 
-            //如果没有路由，直接返回
+            /*如果没有路由，直接返回*/
             if (!view.Alpaca.Router) {
                 return '';
             }
 
-            //生成模板路径
+            /*生成模板路径*/
             var path = view.Alpaca.Config['baseUrl'];
             path += view.Alpaca.Router.Module;
             path += "/view/" + view.Alpaca.Router.Controller + "/";
@@ -304,34 +304,34 @@ ViewModel = function () {
             return path;
         }());
 
-        //渲染位置
+        /*渲染位置*/
         view.CaptureTo = this.DefaultViewCaptureTo;
 
-        //是否使用layout，默认false
+        /*是否使用layout，默认false*/
         view.IsUseLayout = false;
 
-        //是否是Final，默认false。true时控制器中的onDisplay方法可以修改view
+        /* 是否是Final，默认false。true时控制器中的onDisplay方法可以修改view */
         view.IsFinal = false;
 
-        //要渲染的数据
+        /* 要渲染的数据 */
         view.Data = {};
 
-        //使用的layout对象
+        /* 使用的layout对象 */
         view.Layout = null;
 
-        //layout中的数据
+        /* layout中的数据 */
         view.LayoutData = {};
 
-        //part中的数据,
+        /* part中的数据, */
         view.PartData = {};
 
-        //子视图集合
+        /* 子视图集合 */
         view.Children = [];
 
-        //child中的数据,
+        /* child中的数据, */
         view.ChildData = {};
 
-        //加载模板
+        /* 加载模板 */
         view.loadTemplate = function (url) {
             var htmlObj = view.Alpaca.$.ajax({
                 type: "get",
@@ -342,42 +342,42 @@ ViewModel = function () {
             return htmlObj.responseText;
         };
 
-        //渲染数据
+        /* 渲染数据 */
         view.loadData = function (tpl, data) {
             var interText = view.Alpaca.DoT.template(tpl);
             return interText(data);
         };
 
-        //显示视图的方法
+        /* 显示视图的方法 */
         view.show = function (captureTo, html) {
             view.Alpaca.$(captureTo).html(html);
-            //调用视图加载完成事件
+            /* 调用视图加载完成事件 */
             this.onLoad();
             return this;
         };
 
-        //加载完成时候执行的事件
+        /* 加载完成时候执行的事件 */
         view.LoadEvent = [];
 
-        //加载完成时候执行的事件，在onLoad之后
+        /* 加载完成时候执行的事件，在onLoad之后 */
         view.ReadyEvent = [];
 
-        //视图加载完成后调用的事件
+        /* 视图加载完成后调用的事件 */
         view.onLoad = function () {
-            //执行事件
+            /* 执行事件 */
             if (this.LoadEvent) {
                 for (var index in this.LoadEvent) {
                     this.LoadEvent[index](this);
                 }
             }
-            //触发ready事件
+            /* 触发ready事件 */
             this.onReady();
             return this;
         };
 
-        //视图加载完成后调用的事件 在onLoad之后
+        /* 视图加载完成后调用的事件 在onLoad之后 */
         view.onReady = function () {
-            //执行事件
+            /* 执行事件 */
             if (this.ReadyEvent) {
                 for (var index in this.ReadyEvent) {
                     this.ReadyEvent[index](this);
@@ -386,30 +386,30 @@ ViewModel = function () {
             return this;
         };
 
-        //添加load事件
+        /* 添加load事件 */
         view.load = function (func) {
             this.LoadEvent.push(func);
             return this;
         };
 
-        //添加ready事件
+        /* 添加ready事件 */
         view.ready = function (func) {
             this.ReadyEvent.push(func);
             return this;
         };
 
-        //设置数据 data:要设置的数据，isReset: true时候，覆盖原来的数据
+        /* 设置数据 data:要设置的数据，isReset: true时候，覆盖原来的数据 */
         view.setData = function (data, isReset) {
-            //isReset = true时候，覆盖原来的数据，
+            /* isReset = true时候，覆盖原来的数据， */
             if (!this.Data) {
                 this.Data = {};
             }
 
             if (isReset) {
-                //覆盖原来的数据
+                /* 覆盖原来的数据 */
                 this.Data = data;
             } else {
-                //合并数据
+                /* 合并数据 */
                 for (var i in data) {
                     this.Data[i] = data[i];
                 }
@@ -417,25 +417,25 @@ ViewModel = function () {
             return this;
         };
 
-        //设置渲染位置
+        /* 设置渲染位置 */
         view.setCaptureTo = function (captureTo) {
             this.CaptureTo = captureTo;
             return this;
         };
 
-        //设置模板
+        /* 设置模板 */
         view.setTemplate = function (template) {
             this.Template = template;
             return this;
         };
 
-        //设置Final
+        /* 设置Final */
         view.setFinal = function (value) {
             this.Final = Boolean(value);
             return this;
         };
 
-        //设置模板
+        /* 设置模板 */
         view.setLayout = function (layout) {
             this.Layout = layout;
             this.Layout.addChild(this);
@@ -443,7 +443,7 @@ ViewModel = function () {
             return this;
         };
 
-        //设置是否使用layout
+        /* 设置是否使用layout */
         view.setUseLayout = function (value) {
             this.UseLayout = Boolean(value);
             if (value && !this.Layout) {
@@ -452,46 +452,46 @@ ViewModel = function () {
             return this;
         };
 
-        //在view中设置layout的data
+        /* 在view中设置layout的data */
         view.setLayoutData = function (data) {
-            //LayoutData为定义时，设置LayoutData为空对象
+            /* LayoutData为定义时，设置LayoutData为空对象 */
             if (!this.LayoutData) {
                 this.LayoutData = {};
             }
 
-            //合并数据
+            /* 合并数据 */
             for (var i in data) {
                 this.LayoutData[i] = data[i];
             }
             return this;
         };
 
-        //添加子视图
+        /* 添加子视图 */
         view.addChild = function (child, captureTo) {
-            //渲染位置
+            /* 渲染位置 */
             if (captureTo) {
                 child.setCaptureTo(captureTo);
             }
-            //添加子视图
+            /* 添加子视图 */
             this.Children.push(child);
             return this;
         };
 
-        //在设置View中设置Part的Data
+        /* 在设置View中设置Part的Data */
         view.setPartData = function (partData) {
-            //LayoutData为定义时，设置LayoutData为空对象
+            /* LayoutData为定义时，设置LayoutData为空对象 */
             if (!this.PartData) {
                 this.PartData = {};
             }
 
-            //合并数据
+            /* 合并数据 */
             for (var name in partData) {
-                //name就是part中Name的名字
+                /* name就是part中Name的名字 */
                 var data = partData[name];
                 if (!this.PartData[name]) {
                     this.PartData[name] = {};
                 }
-                //合并数据
+                /* 合并数据 */
                 for (var i in data) {
                     this.PartData[name][i] = data[i];
                 }
@@ -500,21 +500,21 @@ ViewModel = function () {
             return this;
         };
 
-        //在设置View中设置Child的Data
+        /* 在设置View中设置Child的Data */
         view.setChildData = function (partData) {
-            //LayoutData为定义时，设置LayoutData为空对象
+            /* LayoutData为定义时，设置LayoutData为空对象 */
             if (!this.ChildData) {
                 this.ChildData = {};
             }
 
-            //合并数据
+            /* 合并数据 */
             for (var name in partData) {
-                //name就是part中Name的名字
+                /* name就是part中Name的名字 */
                 var data = partData[name];
                 if (!this.ChildData[name]) {
                     this.ChildData[name] = {};
                 }
-                //合并数据
+                /* 合并数据 */
                 for (var i in data) {
                     this.ChildData[name][i] = data[i];
                 }
@@ -522,66 +522,66 @@ ViewModel = function () {
             return this;
         };
 
-        //判断是否有子视图
+        /* 判断是否有子视图 */
         view.hasChildren = function () {
             return (0 < (this.Children).length);
         };
 
-        //渲染子视图
+        /* 渲染子视图 */
         view.childRender = function (view) {
             if (view.hasChildren) {
                 for (var index in view.Children) {
-                    //填充子视图中的数据
+                    /* 填充子视图中的数据 */
                     if (view.ChildData[view.Children[index].Name]) {
                         view.Children[index].setData(view.ChildData[view.Children[index].Name]);
                     }
-                    //渲染子视图
+                    /* 渲染子视图 */
                     view.Children[index].render();
                 }
             }
         };
 
-        //渲染视图
+        /* 渲染视图 */
         view.render = function () {
 
-            //添加渲染子视图的事件，在show函数中加载完视图模板会调用该事件
+            /* 添加渲染子视图的事件，在show函数中加载完视图模板会调用该事件 */
             this.load(this.childRender);
 
-            //加载模板
+            /* 加载模板 */
             var tpl = this.loadTemplate(this.Template);
 
-            //渲染数据
+            /* 渲染数据 */
             var html = this.loadData(tpl, this.Data);
 
-            //显示视图
+            /* 显示视图 */
             var show = this.show(this.CaptureTo, html);
 
             return html;
         };
 
-        //显示视图
+        /* 显示视图 */
         view.display = function () {
-            //判断是否使用了模板，如果使用了layout，直接渲染layout（layout中会渲染view）
+            /* 判断是否使用了模板，如果使用了layout，直接渲染layout（layout中会渲染view） */
             if (this.Layout && this.IsUseLayout) {
-                //合并数据-视图中设置的layout数据
+                /* 合并数据-视图中设置的layout数据 */
                 for (var index in this.LayoutData) {
                     this.Layout.Data[index] = this.LayoutData[index];
                 }
-                //合并数据-视图中设置的part数据,将数据放入layout中的ChildData
+                /* 合并数据-视图中设置的part数据,将数据放入layout中的ChildData */
                 for (var name in this.PartData) {
                     var data   = {};
                     data[name] = this.PartData[name];
                     this.Layout.setChildData(data);
                 }
-                //渲染layout
+                /* 渲染layout */
                 this.Layout.render();
             } else {
-                //渲染自己
+                /* 渲染自己 */
                 this.render();
             }
         };
 
-        //返回结果
+        /* 返回结果 */
         return view;
     };
 
@@ -684,7 +684,7 @@ ViewModel = function () {
 
         /* 设置template，如果没有指定template，设置默认template */
         if (!option['template']) {
-            //如果没有路由，直接返回 */
+            /* 如果没有路由，直接返回 */
             if (!obj.Alpaca.Router) {
                 return '';
             }
@@ -1030,7 +1030,7 @@ Alpaca = function () {
         return part;
     };
 
-    //快捷视图模板渲染方法
+    /* 快捷视图模板渲染方法 */
     obj.Tpl = function (option) {
         /* 格式化 */
         if (!option) {
@@ -1038,9 +1038,11 @@ Alpaca = function () {
         }
 
         /* 不格式化template路径，输入的什么就是什么 */
-        option['notFormat'] = true;
+        if(option['notFormat']!==false){
+            option['notFormat'] = true;
+        }
 
-        //如果设置了place,则from，to，全部等于place
+        /* 如果设置了place,则from，to，全部等于place */
         if (option['place']) {
             option['from'] = option['place'];
             option['to']   = option['place'];
@@ -1093,6 +1095,8 @@ Alpaca = function () {
 
         if(request){
             obj.requestData = request;
+        }else{
+            obj.requestData ={};
         }
 
         var routerResult = this.Router.run(inHash);
@@ -1198,12 +1202,12 @@ View = function (data) {
     return Alpaca.View(data);
 };
 
-//快捷视图模板渲染方法
+/* 快捷视图模板渲染方法 */
 Tpl = function (option) {
     Alpaca.Tpl(option);
 };
 
-//快捷方式调用Alpaca路由
+/* 快捷方式调用Alpaca路由 */
 To = function (path,data) {
     Alpaca.to(path,data);
 };
