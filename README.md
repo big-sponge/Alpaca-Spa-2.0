@@ -771,6 +771,15 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
 
 通过上面的示例，可以看出动作index2对应的方法可以接受一个参数data，这个data就是Alpaca.to(router,data)方法传递过去的data对象。
 
+### 5. 关于hash何时被改变
+
+```
+条件1：当前执行的hash必须有效，
+条件2：如果未使用layout，则view的CaptureTo等于DefaultLayoutCaptureTo
+条件2：如果使用了layout，则layout的CaptureTo等于DefaultLayoutCaptureTo
+
+```
+
 ##  视图高级用法
 
 ### 1 简介

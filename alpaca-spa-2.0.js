@@ -1107,7 +1107,7 @@ Alpaca = function () {
         }
 
         /* 设置hash,解决什么时候修改url中的hash:，
-         条件1：inHsah必须有效，
+         条件1：inHash必须有效，
          条件2：如果未使用layout，则view的CaptureTo等于DefaultLayoutCaptureTo
          条件2：如果使用了layout，则layout的CaptureTo等于DefaultLayoutCaptureTo
          */
