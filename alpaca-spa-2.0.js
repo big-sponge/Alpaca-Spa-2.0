@@ -59,8 +59,13 @@ Router = function () {
     /* 路由参数 */
     obj.Params = new Array();
     /* 获取路由中的参数 */
-    obj.getParams = function () {
+    obj.getParams = function (index, defaultValue) {
 
+        if (!defaultValue) {
+            defaultValue = 0;
+        }
+        var value = obj.Params[index] ? obj.Params[index] : defaultValue;
+        return value;
     };
 
     /* 解析路由 */
@@ -350,9 +355,16 @@ ViewModel = function () {
 
         /* 显示视图的方法 */
         view.show = function (captureTo, html) {
-            view.Alpaca.$(captureTo).html(html);
+            if (captureTo == 'html') {
+                document.getElementsByTagName("html")[0].innerHTML = html;
+            } else {
+                view.Alpaca.$(captureTo).html(html);
+            }
             /* 调用视图加载完成事件 */
-            this.onLoad();
+            $(captureTo).ready(function () {
+                view.onLoad();
+            });
+
             return this;
         };
 
@@ -783,18 +795,18 @@ ViewModel = function () {
             conditional: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
             iterate: /\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g,
 
-            evaluateSpa: /<\?spa \s*([\s\S]+?(\}?)+) \s*\?>/g,
-            interpolateSpa: /<\?spa echo ([\s\S]+?) \?>/g,
+            evaluateSpa: /<\?spa \s*([\s\S]+?(\}?)+)\s*\?>/g,
+            interpolateSpa: /<\?spa echo ([\s\S]+?)\?>/g,
             encodeSpa: /\{\{!([\s\S]+?)\}\}/g,
             useSpa: /\{\{#([\s\S]+?)\}\}/g,
             useParamsSpa: /(^|[^\w$])def(?:\.|\[[\'\"])([\w$\.]+)(?:[\'\"]\])?\s*\:\s*([\w$\.]+|\"[^\"]+\"|\'[^\']+\'|\{[^\}]+\})/g,
             defineSpa: /\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g,
             defineParamsSpa: /^\s*([\w$]+):([\s\S]+)/,
-            endIterateSpa: /<\?spa \s*endForeach(|;) \s*\?>/g,
+            endIterateSpa: /<\?spa \s*endForeach(|;)\s*\?>/g,
             conditionalSpa: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
-            iterateSpa: /<\?spa \s*foreach\(\s*([\s\S]+?)\s*as\s*([\w$]+)\s*(?:=>\s*([\w$]+))?\s*\)(|:) \s*\?>/g,
-            for: /<\?spa for\(\s*var\s*([\s\S]+?)\s*in\s*([\s\S]+?)\s*\) \s*\?>/g,
-            endFor: /<\?spa \s*endFor(|;) \s*\?>/g,
+            iterateSpa: /<\?spa \s*foreach\(\s*([\s\S]+?)\s*as\s*([\w$]+)\s*(?:=>\s*([\w$]+))?\s*\)(|:)\s*\?>/g,
+            for: /<\?spa for\(\s*var\s*([\s\S]+?)\s*in\s*([\s\S]+?)\s*\)\s*\?>/g,
+            endFor: /<\?spa \s*endFor(|;)\s*\?>/g,
 
             varname: "it",
             strip: true,
@@ -1038,7 +1050,7 @@ Alpaca = function () {
         }
 
         /* 不格式化template路径，输入的什么就是什么 */
-        if(option['notFormat']!==false){
+        if (option['notFormat'] !== false) {
             option['notFormat'] = true;
         }
 
@@ -1087,16 +1099,16 @@ Alpaca = function () {
     };
 
     /* 调用Alpaca路由 */
-    obj.to = function (inHash,request) {
+    obj.to = function (inHash, request) {
 
         /* 开始路由 */
-        this.Router = this.NewRouter();
+        this.Router        = this.NewRouter();
         this.Router.Alpaca = this;
 
-        if(request){
+        if (request) {
             obj.requestData = request;
-        }else{
-            obj.requestData ={};
+        } else {
+            obj.requestData = {};
         }
 
         var routerResult = this.Router.run(inHash);
@@ -1107,7 +1119,7 @@ Alpaca = function () {
         }
 
         /* 设置hash,解决什么时候修改url中的hash:，
-         条件1：inHash必须有效，
+         条件1：inHsah必须有效，
          条件2：如果未使用layout，则view的CaptureTo等于DefaultLayoutCaptureTo
          条件2：如果使用了layout，则layout的CaptureTo等于DefaultLayoutCaptureTo
          */
@@ -1208,6 +1220,6 @@ Tpl = function (option) {
 };
 
 /* 快捷方式调用Alpaca路由 */
-To = function (path,data) {
-    Alpaca.to(path,data);
+To = function (path, data) {
+    Alpaca.to(path, data);
 };
