@@ -8,6 +8,14 @@
 
 &emsp;&emsp;Alpaca-spa.js 区别于其他框架的主要特点是轻巧灵活，**学习成本低**。框架没有复杂的概念与特性，几乎都是最基本的JavaScript语法，也就是说读者只要有JavaScript语言基础，就能很快学会使用 Alpaca-spa.js框架。
 
+### 演示地址
+
+Alpaca-Spa-Laravel :   http://full.tkc8.com
+
+Alpaca-Spa :   http://www.tkc8.com
+
+登录账号是一个测试帐号，权限只有浏览功能，没有编辑等修改功能。
+
 ## 入门示例
 
 ### 1. 引用Alpaca-spa-2.0.js
