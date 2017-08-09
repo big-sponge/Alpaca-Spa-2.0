@@ -59,8 +59,13 @@ Router = function () {
     /* 路由参数 */
     obj.Params = new Array();
     /* 获取路由中的参数 */
-    obj.getParams = function () {
+    obj.getParams = function (index, defaultValue) {
 
+        if (!defaultValue) {
+            defaultValue = 0;
+        }
+        var value = obj.Params[index] ? obj.Params[index] : defaultValue;
+        return value;
     };
 
     /* 解析路由 */
@@ -130,124 +135,15 @@ Router = function () {
         return this;
     };
 
-    /* 获取要执行的action，检查路由是否正确解析 */
-    obj.check = function (router) {
-
-        /* 定义要执行的action的名字 */
-        var actionName = '';
-        /* 获取内置模块Alpaca模块，里面处理了一些出错信息 */
-        var alpacaController = this.AlpacaName + "AlpacaModule.AlpacaController";
-
-        /* 检查模块名，控制器名，动作名 */
-        if (!eval(router.ModuleFullName)) {
-            /* 模块名不正确 */
-            actionName = alpacaController + ".moduleNotFoundAction";
-        } else if (!eval(router.ControllerFullName)) {
-            /* 控制器名不正确 */
-            actionName = alpacaController + ".controllerNotFoundAction";
-        } else if (!eval(router.ActionFullName)) {
-            /* 动作名不正确 */
-            actionName = alpacaController + ".actionNotFoundAction";
-        } else {
-            actionName = router.ActionFullName;
-        }
-
-        /* 返回处理后的结果 */
-        return actionName;
-    };
-
-    /* 执行模块或者控制器中的init方法，该方法在action方法之前执行 */
-    obj.init = function () {
-        /* 执行模块init方法，如果该方法存在 */
-        var moduleResult = undefined;
-        if (eval(this.ModuleFullName) && eval(this.ModuleFullName + ".init")) {
-            moduleResult = eval(this.ModuleFullName + ".init" + "()");
-        }
-        if (moduleResult !== undefined) {
-            return moduleResult;
-        }
-
-        /* 执行控制器init方法，如果该方法存在 */
-        var controllerResult = undefined;
-        if (eval(this.ModuleFullName) && eval(this.ControllerFullName) && eval(this.ControllerFullName + ".init")) {
-            controllerResult = eval(this.ControllerFullName + ".init" + "()");
-        }
-        if (controllerResult !== undefined) {
-            return controllerResult;
-        }
-
-        return undefined;
-    };
-
-    /* 执行模块或者控制器中的release方法，该方法在action方法之前执行 */
-    obj.release = function () {
-
-        /* 执行控制器release方法，如果该方法存在 */
-        if (eval(this.ModuleFullName) && eval(this.ControllerFullName) && eval(this.ControllerFullName + ".release")) {
-            eval(this.ControllerFullName + ".release" + "()");
-        }
-
-        /* 执行模块release方法，如果该方法存在 */
-        if (eval(this.ModuleFullName) && eval(this.ModuleFullName + ".release")) {
-            eval(this.ModuleFullName + ".release" + "()");
-        }
-    };
-
-    /* 执行解析后路由对应的方法 */
-    obj.doAction = function (actionName) {
-
-        /* 执行分发之前的事件 */
-        var initResult = this.init();
-        if (initResult !== undefined) {
-            return;
-        }
-
-        /* 判断actionName是否为空 */
-        if (!actionName) {
-            return;
-        }
-
-        /* 执行Action */
-        var data = obj.Alpaca.requestData;
-
-        var result = eval(actionName + "(data)");
-
-        /* 返回结果为无效的时候 */
-        if (!result) {
-            return;
-        }
-
-        /* 返回的结果是一个视图View对象时候 */
-        if (result) {
-            result.display();
-        }
-        /* 执行分发后的事件 */
-        this.release();
-
-        /* 返回结果 */
-        return result;
-    };
-
     /* 启动路由 */
     obj.run = function (inHash) {
-
         /* 解析hash,创建一个路由实例 */
-        var router = this.parser(inHash);
-
-        /* 获取要执行的方法 */
-        var runAction = this.check(router);
-
-        /* 执行动作 */
-        var result = this.doAction(runAction);
-
-        /* 返回结果 */
-        return result;
-
+        return this.parser(inHash);
     };
 
     /* 返回路由 */
     return obj;
-};
+}();
 
 /* View对象 */
 ViewModel = function () {
@@ -350,9 +246,16 @@ ViewModel = function () {
 
         /* 显示视图的方法 */
         view.show = function (captureTo, html) {
-            view.Alpaca.$(captureTo).html(html);
+            if (captureTo == 'html') {
+                document.getElementsByTagName("html")[0].innerHTML = html;
+            } else {
+                view.Alpaca.$(captureTo).html(html);
+            }
             /* 调用视图加载完成事件 */
-            this.onLoad();
+            $(captureTo).ready(function () {
+                view.onLoad();
+            });
+
             return this;
         };
 
@@ -783,18 +686,18 @@ ViewModel = function () {
             conditional: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
             iterate: /\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g,
 
-            evaluateSpa: /<\?spa \s*([\s\S]+?(\}?)+) \s*\?>/g,
-            interpolateSpa: /<\?spa echo ([\s\S]+?) \?>/g,
+            evaluateSpa: /<\?spa \s*([\s\S]+?(\}?)+)\s*\?>/g,
+            interpolateSpa: /<\?spa echo ([\s\S]+?)\?>/g,
             encodeSpa: /\{\{!([\s\S]+?)\}\}/g,
             useSpa: /\{\{#([\s\S]+?)\}\}/g,
             useParamsSpa: /(^|[^\w$])def(?:\.|\[[\'\"])([\w$\.]+)(?:[\'\"]\])?\s*\:\s*([\w$\.]+|\"[^\"]+\"|\'[^\']+\'|\{[^\}]+\})/g,
             defineSpa: /\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g,
             defineParamsSpa: /^\s*([\w$]+):([\s\S]+)/,
-            endIterateSpa: /<\?spa \s*endForeach(|;) \s*\?>/g,
+            endIterateSpa: /<\?spa \s*endForeach(|;)\s*\?>/g,
             conditionalSpa: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
-            iterateSpa: /<\?spa \s*foreach\(\s*([\s\S]+?)\s*as\s*([\w$]+)\s*(?:=>\s*([\w$]+))?\s*\)(|:) \s*\?>/g,
-            for: /<\?spa for\(\s*var\s*([\s\S]+?)\s*in\s*([\s\S]+?)\s*\) \s*\?>/g,
-            endFor: /<\?spa \s*endFor(|;) \s*\?>/g,
+            iterateSpa: /<\?spa \s*foreach\(\s*([\s\S]+?)\s*as\s*([\w$]+)\s*(?:=>\s*([\w$]+))?\s*\)(|:)\s*\?>/g,
+            for: /<\?spa for\(\s*var\s*([\s\S]+?)\s*in\s*([\s\S]+?)\s*\)\s*\?>/g,
+            endFor: /<\?spa \s*endFor(|;)\s*\?>/g,
 
             varname: "it",
             strip: true,
@@ -982,6 +885,8 @@ Alpaca = function () {
 
     var obj = {};
 
+    obj.Name = 'Alpaca.';
+
     /* 版本信息 */
     obj.Version = {
         version: '2.0.0',
@@ -1038,7 +943,7 @@ Alpaca = function () {
         }
 
         /* 不格式化template路径，输入的什么就是什么 */
-        if(option['notFormat']!==false){
+        if (option['notFormat'] !== false) {
             option['notFormat'] = true;
         }
 
@@ -1087,22 +992,109 @@ Alpaca = function () {
     };
 
     /* 调用Alpaca路由 */
-    obj.to = function (inHash,request) {
+    obj.to = function (inHash, data) {
 
         /* 开始路由 */
-        this.Router = this.NewRouter();
+        this.Router        = this.NewRouter;
         this.Router.Alpaca = this;
 
-        if(request){
-            obj.requestData = request;
-        }else{
-            obj.requestData ={};
+        /* 根据hash创建路由对象 */
+        var router = this.Router.run(inHash);
+
+        /* 检查路由对象是否正确 */
+        var runAction = obj.check(router);
+
+        /* 执行动作 */
+        if (!data) {
+            data = {};
+        }
+        var result = obj.doAction(runAction, router, data, inHash);
+
+        /* 返回结果 */
+        return result;
+    };
+
+    /* 获取要执行的action，检查路由是否正确解析 */
+    obj.check = function (router) {
+
+        /* 定义要执行的action的名字 */
+        var actionName = '';
+        /* 获取内置模块Alpaca模块，里面处理了一些出错信息 */
+        var alpacaController = this.Name + "AlpacaModule.AlpacaController";
+
+        /* 检查模块名，控制器名，动作名 */
+        if (!eval(router.ModuleFullName)) {
+            /* 模块名不正确 */
+            actionName = alpacaController + ".moduleNotFoundAction";
+        } else if (!eval(router.ControllerFullName)) {
+            /* 控制器名不正确 */
+            actionName = alpacaController + ".controllerNotFoundAction";
+        } else if (!eval(router.ActionFullName)) {
+            /* 动作名不正确 */
+            actionName = alpacaController + ".actionNotFoundAction";
+        } else {
+            actionName = router.ActionFullName;
         }
 
-        var routerResult = this.Router.run(inHash);
+        /* 返回处理后的结果 */
+        return actionName;
+    };
 
-        if (routerResult == false || !routerResult) {
-            this.Router.InHash = null;
+    /* 执行模块或者控制器中的init方法，该方法在action方法之前执行 */
+    obj.init = function (router) {
+        /* 执行模块init方法，如果该方法存在 */
+        var moduleResult = undefined;
+        if (eval(router.ModuleFullName) && eval(router.ModuleFullName + ".init")) {
+            moduleResult = eval(router.ModuleFullName + ".init" + "()");
+        }
+        if (moduleResult !== undefined) {
+            return moduleResult;
+        }
+
+        /* 执行控制器init方法，如果该方法存在 */
+        var controllerResult = undefined;
+        if (eval(router.ModuleFullName) && eval(router.ControllerFullName) && eval(router.ControllerFullName + ".init")) {
+            controllerResult = eval(router.ControllerFullName + ".init" + "()");
+        }
+        if (controllerResult !== undefined) {
+            return controllerResult;
+        }
+
+        return undefined;
+    };
+
+    /* 执行模块或者控制器中的release方法，该方法在action方法之前执行 */
+    obj.release = function (router) {
+
+        /* 执行控制器release方法，如果该方法存在 */
+        if (eval(router.ModuleFullName) && eval(router.ControllerFullName) && eval(router.ControllerFullName + ".release")) {
+            eval(this.ControllerFullName + ".release" + "()");
+        }
+
+        /* 执行模块release方法，如果该方法存在 */
+        if (eval(router.ModuleFullName) && eval(router.ModuleFullName + ".release")) {
+            eval(router.ModuleFullName + ".release" + "()");
+        }
+    };
+
+    /* 执行解析后路由对应的方法 */
+    obj.doAction = function (actionName, router, data, inHash) {
+
+        /* 执行分发之前的事件 */
+        var initResult = obj.init(router);
+        if (initResult !== undefined) {
+            return;
+        }
+
+        /* 判断actionName是否为空 */
+        if (!actionName) {
+            return;
+        }
+
+        /* 执行Action */
+        var result = eval(actionName + "(data)");
+        if (result == false || !result) {
+            router.InHash = null;
             return false;
         }
 
@@ -1111,8 +1103,7 @@ Alpaca = function () {
          条件2：如果未使用layout，则view的CaptureTo等于DefaultLayoutCaptureTo
          条件2：如果使用了layout，则layout的CaptureTo等于DefaultLayoutCaptureTo
          */
-        var isSetHash = inHash && ( routerResult.CaptureTo == Alpaca.ViewModel.DefaultLayoutCaptureTo || (routerResult.IsUseLayout == true && routerResult.Layout.CaptureTo == Alpaca.ViewModel.DefaultLayoutCaptureTo));
-
+        var isSetHash = inHash && ( result.CaptureTo == Alpaca.ViewModel.DefaultLayoutCaptureTo || (result.IsUseLayout == true && result.Layout.CaptureTo == Alpaca.ViewModel.DefaultLayoutCaptureTo));
         if (isSetHash || this.isChangeHash === true) {
             /* 关闭浏览器内置onHashChange事件 */
             window.onhashchange = null;
@@ -1126,9 +1117,17 @@ Alpaca = function () {
             }, 50);
         }
 
-        this.Router.InHash = null;
-        return true;
+        /* 返回的结果是一个视图View对象时候 */
+        if (result) {
+            result.display();
+        }
+        /* 执行分发后的事件 */
+        obj.release(router);
 
+        /* 清空路由中的hash */
+        router.InHash = null;
+        /* 返回结果 */
+        return result;
     };
 
     /* changeHash,处理当hash变化时候，调用alpaca */
@@ -1208,6 +1207,6 @@ Tpl = function (option) {
 };
 
 /* 快捷方式调用Alpaca路由 */
-To = function (path,data) {
-    Alpaca.to(path,data);
+To = function (path, data) {
+    Alpaca.to(path, data);
 };
