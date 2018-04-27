@@ -294,9 +294,9 @@ Hello Alpaca.
 
 通过上面两个例子，可以发现，Url中 :
 
-````#/index/index/index``` 映射到 ```Alpaca.IndexModule.IndexController.indexAction()```方法
+```#/index/index/index``` 映射到 ```Alpaca.IndexModule.IndexController.indexAction()```方法
 
-````#/index/index/index2``` 映射到 ```Alpaca.IndexModule.IndexController.index2Action()```方法
+```#/index/index/index2``` 映射到 ```Alpaca.IndexModule.IndexController.index2Action()```方法
 
 这就是**Alpace路由的用途，将Url中hash部分映射到一个js方法**。
 
@@ -313,11 +313,11 @@ Hello Alpaca.
 
 * Alpaca 格式 :
 
-  + <?spa ?\>在标签内可以使用任意的JS语法
-  + <?spa echo xxx ?\>                       输出变量
-  + <?spa if(){ ?\>xxx<?spa } ?\>   条件判断
-  + <?spa for(){ ?>xxx<?spa } ?\>   for循环
-  + <?spa foreach(xxx as key => val) ?\> xxx <?spa endForeach ?\>   foreach循环
+  + \<?spa ?\>在标签内可以使用任意的JS语法
+  + \<?spa echo xxx ?\>                       输出变量
+  + \<?spa if(){ ?\>xxx\<?spa } ?\>   条件判断
+  + \<?spa for(){ ?>xxx\<?spa } ?\>   for循环
+  + \<?spa foreach(xxx as key => val) ?\> xxx \<?spa endForeach ?\>   foreach循环
 * dot.js 格式 ：
   + {{ }}                                           在标签内可以使用JS表达式和dot.js语法
   + {{=value }}                               当前位置输出变量的值
@@ -327,7 +327,7 @@ Hello Alpaca.
 
 &emsp;&emsp;学习使用Alpaca-spa.js模板引擎 ，开发人员只需要掌握三种基本的语法格式即可： 输出变量，循环， 条件判断。
 
-**提示：** 在标签<?spa ?\> 或者{{ }}中，可以使用任意的JavaScript语法。
+**提示：** 在标签\<?spa ?\> 或者{{ }}中，可以使用任意的JavaScript语法。
 
 下面介绍如何使用这三种语法格式.
 
@@ -335,7 +335,7 @@ Hello Alpaca.
 
 语法：
 
-+ <?spa echo it.xxx ?\>
++ \<?spa echo it.xxx ?\>
 + {{=it.xxx}}
 
 用途：在渲染页面时，将一个变量显示在页面上
@@ -382,7 +382,7 @@ Age:26!
 
 语法：
 
-+ <?spa foreach() ?\> xxx <?spa endForeach ?\>
++ \<?spa foreach() ?\> xxx <?spa endForeach ?\>
 + {{ for(){ }}xxx{{ } }}
 
 用途：在遍历数组或者对象时候使用
@@ -444,7 +444,7 @@ Age:26!
 
 语法：
 
-+ <?spa if(condition){ ?\> xxx <?spa } ?\>
++ \<?spa if(condition){ ?\> xxx <?spa } ?\>
 + {{ if(condition){ }} xxx {{ } }}
 
 
