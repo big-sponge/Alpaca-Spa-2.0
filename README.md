@@ -1,23 +1,23 @@
-# Alpaca-Spa-2.0 使用帮助
+# Alpaca-spa-2.1 使用帮助
 
 ## 简介
 
-### 1.Alpaca-spa-2.0.js 简介
+### 1.Alpaca-spa-2.1.js 简介
 
 Alpaca-spa.js是一款轻量的前端JS框架，提供前端**路由**功能，前端**视图渲染**功能，前端**页面嵌套**功能。目的是用来提高web项目的开发效率，前后端分离开发，同时使前端代码结构更加整洁。
 Alpaca-spa.js 区别于其他框架的主要特点是**轻巧灵活**，**移动端、PC端都适用**，**大小项目都适用**，而且**学习成本低**，
 框架没有复杂的概念与特性，不依赖开发环境（如node.js等），都是最基本的JavaScript语法，也就是说读者只要有JavaScript语言基础，就可以很快学会使用 Alpaca-spa.js框架用来构建前端页面。
 
-### 2.使用 Alpaca-spa-2.0.js
+### 2.使用 Alpaca-spa-2.1.js
 
-Alpaca-spa-2.0.js 目前依赖于jquery.js。使用Alpaca-spa-2.0.js需要引用同时引用jquery.js，当然也可以是zepto.js。
+Alpaca-spa-2.1.js 目前依赖于jquery.js。使用Alpaca-spa-2.1.js需要引用同时引用jquery.js，当然也可以是zepto.js。
 
 
 1). 使用 jquery.js 需要在代码中引用：
 
 ```
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
 ```
 
@@ -26,7 +26,7 @@ Alpaca-spa-2.0.js 目前依赖于jquery.js。使用Alpaca-spa-2.0.js需要引用
 ```
     <script type='text/javascript' src='http://m.sui.taobao.org/assets/js/zepto.js' charset='utf-8'></script>
     <script> $.config = {router: false};</script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
     <!-- 由于alpaca也有路由功能，上面代码中关闭了 zepto 的路由 -->
 
 ```
@@ -54,7 +54,7 @@ Alpaca-Spa的官方主页：http://www.tkc8.com
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>Alpaca - App</title>
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -174,10 +174,10 @@ body中定义了两个a标签、以及一个id为content的Div区域， 第一�
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
     <script>
         $().ready(function () {
             Alpaca.Tpl({data:{text:'Alpaca'},place:'body'});
@@ -217,7 +217,7 @@ hello Alpaca !
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>Alpaca - App</title>
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
     <script>
         $().ready(function () {
             Alpaca.run();
@@ -243,11 +243,11 @@ Welcome use Alpaca-spa 2.0 !
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         //定义index模块
@@ -346,11 +346,11 @@ Hello Alpaca.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         $(function(){
@@ -393,11 +393,11 @@ Age:26!
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         $(function(){
@@ -456,11 +456,11 @@ Age:26!
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script src="/common/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         $(function(){
@@ -534,7 +534,7 @@ Age:26!
         <meta charset="UTF-8">
         <title>alpaca-spa.2.0</title>
         <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-        <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+        <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
         <script>
             $(function(){
                 Alpaca.Tpl({from:'#template',to:'#content',data:{name:"Alpaca-spa"}});
@@ -565,7 +565,7 @@ Welcome to Alpaca-spa!
         <meta charset="UTF-8">
         <title>alpaca-spa.2.0</title>
         <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-        <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+        <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
         <script>
             $(function(){
                 Alpaca.Tpl({place:'body',data:{name:"Alpaca-spa"}});
@@ -600,11 +600,11 @@ test-template.html 文件是用来测试该示例的页面，内容如下：
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         $().ready(function () {
@@ -639,11 +639,11 @@ This is Alpaca-spa.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         //定义index模块
@@ -770,11 +770,11 @@ Welcome use Alpaca-spa 2.0 !
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         //定义index模块
@@ -817,11 +817,11 @@ Hello I'm your default Router.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         //定义index模块
@@ -870,11 +870,11 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script>
         //定义index模块
@@ -926,10 +926,10 @@ Alpaca.to()方法可以传递两个参数Alpaca.to(router,data), 其中router是
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
     <script>
         //定义index模块
         Alpaca.IndexModule = {};
@@ -1045,11 +1045,11 @@ application/index.html 文件中的内容:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alpaca-Spa-2.0 JS</title>
+    <title>Alpaca-spa-2.1 JS</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
-    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.0.js"></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
     <script src="/index/index.js" type="text/javascript"></script>
     <script src="/index/controller/index.js" type="text/javascript"></script>
