@@ -1,0 +1,26 @@
+<style>
+    .layout-css {
+        border: 1px solid green;
+        padding: 20px;
+    }
+
+    #content, #leftMenu {
+        border: 1px dashed green;
+    }
+
+    #content {
+        padding: 20px;
+    }
+</style>
+
+<div class="layout-css">
+
+    <h2> 我是layout! 数据【{{=it.layoutData}}】是在控制器中传递给我的。</h2>
+
+    <h5>左边菜单：</h5>
+    <div id="leftMenu"></div>
+
+    <h5>页面内容区域：</h5>
+    <div id="content"></div>
+
+</div>

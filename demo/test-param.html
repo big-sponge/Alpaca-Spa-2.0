@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alpaca-Spa-2.0 JS</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
+    <script>
+        //定义index模块
+        Alpaca.IndexModule = {};
+        //定义index控制器
+        Alpaca.IndexModule.IndexController={
+            //定义index动作
+            indexAction:function(){
+                var v1 = Alpaca.Router.getParams(0);
+                var v2 = Alpaca.Router.getParams(1);
+                var v_a = Alpaca.Router.getParams('a');
+                var v_b = Alpaca.Router.getParams('b');
+
+                var result = "v1 = " + v1 +'<br>';
+                result += "v2 = " + v2 +'<br>';
+                result += "v_a = " + v_a +'<br>';
+                result += "v_b = " + v_b +'<br>';
+
+                $('#result').html(result);
+            },
+        };
+    </script>
+
+    <script>
+        $().ready(function () {
+            Alpaca.run("#/index/index/index");
+        });
+    </script>
+
+</head>
+<body>
+<div id='result'></div>
+</body>
+</html>

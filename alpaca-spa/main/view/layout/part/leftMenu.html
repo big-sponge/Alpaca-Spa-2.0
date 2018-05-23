@@ -1,0 +1,28 @@
+<style>
+    .lm-css {
+        padding: 20px;;
+    }
+</style>
+
+<div class="lm-css">
+    <h3>我是左边的菜单，请把我放到左面! 数据【{{=it.partData}}】是在控制器中传递给我的。</h3>
+    <h6>点下面的连接可以切换其他页面</h6>
+
+    <button type="button" onclick="toIndex1()"> 页面Index1</button>
+    <button type="button" onclick="toIndex2()"> 页面Index2</button>
+    <button type="button" onclick="toIndex3()"> 页面Index3</button>
+</div>
+
+
+<script>
+    /*必须注意 在模版中写js，注释不可以用“//”*/
+    var toIndex1 = function () {
+        Alpaca.to('#/main/index/index');
+    };
+    var toIndex2 = function () {
+        Alpaca.to('#/main/index/index2');
+    };
+    var toIndex3 = function () {
+        Alpaca.to('#/main/index/index3');
+    }
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Alpaca - App</title>
+    <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
+</head>
+
+<body>
+<a href="#/main/index/page1">点我去Page1</a> |
+<a href="#/main/index/page2">点我去Page2</a>
+<hr>
+<div id="content"></div>
+<hr>
+</body>
+
+<!-- page 1 -->
+<script id='tpl_page1' type="text/x-dot-template">
+    <div>
+        <p>大家好啊, 我单页中的 <b> page 1 </b></p>
+        <p>姓名 : {{= it.name}}</p>
+        <p>年龄 : {{= it.age}}</p>
+    </div>
+</script>
+
+<!-- page 1 -->
+<script id='tpl_page2' type="text/x-dot-template">
+    <div>
+        <p>大家好啊, 我单页中的 <b> page 2 </b></p>
+        <p>介绍 :{{= it.desc}}</p>
+    </div>
+</script>
+
+<script>
+    Alpaca.MainModule = {};
+    Alpaca.MainModule.IndexController = {
+        page1Action: function () {
+            return new Alpaca.View({from: "#tpl_page1", to: "#content", data: {name: 'alpaca', age: '2'}});
+        },
+        page2Action: function () {
+            return new Alpaca.View({from: "#tpl_page2", to: "#content", data: {desc: 'alpaca 是一款轻量的前端框架'}});
+        },
+    };
+
+    $(document).ready(function () {
+        Alpaca.run("#/main/index/page1");
+    });
+</script>
+
+</html>

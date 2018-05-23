@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Alpaca - App</title>
+    <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
+    <script>
+        //定义index模块
+        Alpaca.IndexModule = {};
+        //定义index控制器
+        Alpaca.IndexModule.IndexController = {
+            //定义index动作
+            indexAction: function () {
+                alert('Hello Router');
+            },
+            //定义index动作
+            index2Action: function () {
+                Alpaca.Tpl({data: {text: 'Hello'}, place: 'body'});
+            },
+        };
+    </script>
+    <script>
+        $().ready(function () {
+            Alpaca.run();
+        });
+    </script>
+</head>
+<body>
+{{=it.text }} Alpaca.
+</body>
+</html>

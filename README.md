@@ -66,7 +66,7 @@ Alpaca-Spa的官方主页：http://www.tkc8.com
     <hr>
 </body>
 
-<!-- page 1 -->
+<!-- page 1 的模版 -->
 <script id='tpl_page1' type="text/x-dot-template">
     <div>
         <p>大家好啊, 我单页中的 <b> page 1 </b></p>
@@ -75,7 +75,7 @@ Alpaca-Spa的官方主页：http://www.tkc8.com
     </div>
 </script>
 
-<!-- page 1 -->
+<!-- page 2 的模版 -->
 <script id='tpl_page2' type="text/x-dot-template">
     <div>
         <p>大家好啊, 我单页中的 <b> page 2 </b></p>
@@ -124,7 +124,7 @@ body中定义了两个a标签、以及一个id为content的Div区域， 第一�
 
 
 ```
-<!-- page 1 -->
+<!-- page 1 的模版 -->
 <script id='tpl_page1' type="text/x-dot-template">
     <div>
         <p>大家好啊, 我单页中的 <b> page 1 </b></p>
@@ -163,6 +163,10 @@ body中定义了两个a标签、以及一个id为content的Div区域， 第一�
 
 后面会详细介绍``` Alpaca.View()``` 方法。除了使用``` Alpaca.View()```方法，也可以使用简单的``` Alpaca.Tpl()```方法，
 ``` Alpaca.Tpl()```比``` Alpaca.View()```简洁，支持的功能较少。
+
+```from: "#tpl_page1"```表示使用 id等于tpl_page1的模版；
+```to: "#content"```表示渲染到id=content的区域；
+```data: {name: 'alpaca', age: '2'}```表示向模版中专递的数据，在模版中用it关键字获取（注意：传递数据类型必须为对象格式）。
 
 下面看看其他示例：
 
@@ -313,11 +317,11 @@ Hello Alpaca.
 
 * Alpaca 格式 :
 
-  + \<?spa ?\>在标签内可以使用任意的JS语法
-  + \<?spa echo xxx ?\>                       输出变量
-  + \<?spa if(){ ?\>xxx\<?spa } ?\>   条件判断
-  + \<?spa for(){ ?>xxx\<?spa } ?\>   for循环
-  + \<?spa foreach(xxx as key => val) ?\> xxx \<?spa endForeach ?\>   foreach循环
+  + <?spa ?\>在标签内可以使用任意的JS语法
+  + <?spa echo xxx ?\>                       输出变量
+  + <?spa if(){ ?\>xxx<?spa } ?\>   条件判断
+  + <?spa for(){ ?>xxx<?spa } ?\>   for循环
+  + <?spa foreach(xxx as key => val) ?\> xxx <?spa endForeach ?\>   foreach循环
 * dot.js 格式 ：
   + {{ }}                                           在标签内可以使用JS表达式和dot.js语法
   + {{=value }}                               当前位置输出变量的值
@@ -327,7 +331,7 @@ Hello Alpaca.
 
 &emsp;&emsp;学习使用Alpaca-spa.js模板引擎 ，开发人员只需要掌握三种基本的语法格式即可： 输出变量，循环， 条件判断。
 
-**提示：** 在标签\<?spa ?\> 或者{{ }}中，可以使用任意的JavaScript语法。
+**提示：** 在标签<?spa ?\> 或者{{ }}中，可以使用任意的JavaScript语法。
 
 下面介绍如何使用这三种语法格式.
 
@@ -335,7 +339,7 @@ Hello Alpaca.
 
 语法：
 
-+ \<?spa echo it.xxx ?\>
++ <?spa echo it.xxx ?\>
 + {{=it.xxx}}
 
 用途：在渲染页面时，将一个变量显示在页面上
@@ -382,7 +386,7 @@ Age:26!
 
 语法：
 
-+ \<?spa foreach() ?\> xxx <?spa endForeach ?\>
++ <?spa foreach() ?\> xxx <?spa endForeach ?\>
 + {{ for(){ }}xxx{{ } }}
 
 用途：在遍历数组或者对象时候使用
@@ -444,7 +448,7 @@ Age:26!
 
 语法：
 
-+ \<?spa if(condition){ ?\> xxx <?spa } ?\>
++ <?spa if(condition){ ?\> xxx <?spa } ?\>
 + {{ if(condition){ }} xxx {{ } }}
 
 
@@ -979,129 +983,202 @@ v_b = bbbbb
 ** 注: ** 使用```Alpaca.Router.getParams()```获取url中的参数时，如果#后面与#号前面有相同名字的参数，**优先获取#后面的**。
 
 
-##  视图高级用法
+##  视图高级用法(多页结构的前后分离)
 
 ### 1 简介
 
-&emsp;&emsp;视图功能是Alpaca-Spa.js的核心功能，主要解决前端JavaScript实现页面嵌套，页面数据渲染，页面局部渲染等功能。使用视图功能需要配置web服务器，例如apache, nginx等，将网站的根目录设置为项目所在的目录。
-
-推荐的目录结构如下：
+视图功能是Alpaca-Spa.js的核心功能，主要解决前端JavaScript实现页面嵌套，页面数据渲染，页面局部渲染等功能。
+使用alpaca-spa的View功能，可以轻松构建多页面前后分离结构，尤其是在开发后台功能时，非常实用。
+当然，使用alpaca-spa开发移动端h5网站,单页面结构网站也是非常不错的选择。
+使用视图功能需要配置web服务器，例如apache, nginx，node等。
+这里使用apache举例，假设你的网站根目录位于：
 
 ```
--application
-　 -index
-　　  -controller
+    C:\www\
+
+```
+
+当然你可以配置apache的虚拟主机，将网站的根目录放在任意你喜欢的地方。
+
+如果你们项目的前后端在同一个域名下面，也就是网站根目录前后端用的是同一个，那前端的代码一般不会直接放在根木目下面，
+在根目录下面建立一个叫 ```alpaca-spa```或者叫其他名字的目录（只要不与后端路由冲突既可），例如将前端代码放到 ```alpaca-spa```目录下面
+
+
+一个简单的目录结构如下：
+
+```
+--C:\www\alpaca-spa\
+　 --main\
+　　  --controller\
 　　     index.js
-　　  -view
-　　     -index
+　　  --view\
+　　     --index\
             index.html
             index-2.html
             index-3.html
-　　     -layout
-            -part
+　　     --layout\
+            --part\
                leftMenu.html
             layout.html
-　　  index.js
-   -test
-  　  -controller
-　　     index.js
-　　  -view
-　　     -index
-            index.html
-            index-2.html
-            index-3.html
-  　  test.js
+　　  main.js
    index.html
 ```
-```
-1. 示例中的application是项目的根目录，应该将web服务器的根目录设置为此目录。
 
-2. application目录下面有两个子目录，1个html文件。
-   index        index目录用来存放当前项目中，所有index模块相关的文件
-   test         test目录用来存放当前项目中，所有test模块相关的文件
+```
+1. 示例中的www是项目的根目录，应该将web服务器的根目录设置为此目录。
+
+2. alpaca-spa是前端项目的目录，目录下面有1个子目录，1个html文件。
+   main         main目录用来存放当前项目中所有main模块的文件。可以创建多个模块。
    index.html   index.html用来做当前项目的入口文件
 
 3.index目录里面有两个目录controller，view，一个js文件
-   controller   用来存放index模块的控制器的js代码。里面有一个控制器js文件，index.js
-   view         用来存放index模块的视图部分的js代码。
+   controller   用来存放main模块的控制器的js代码。里面有一个控制器js文件，index.js
+   view         用来存放main模块的视图部分的js代码。
                 示例中view目录里面有一个子目录index，用于存放index控制器中相关的模板，
-                本示例中，有三个模板：index.html，index-2.html，index-3.html
+                本示例中，有三个模板：index.html，index2.html，index3.html
                 还有一个子目录layout，用于存放公共的布局信息，
                 layout目录中的layout.html是默认的布局模板文件
                 layout目录中的还有一个子目录part，用来存放页面中其他公共区域，例如菜单等
-   index.js     index.js是index模块的模块级别的js代码。
-                推荐在这个文件里面做模块的定义，例如：Alpaca.IndexModule = {};
-
-4.test目录与index目录同理
+   main.js      main.js是main模块的模块级别的js代码。
+                推荐在这个文件里面做模块的定义，例如：Alpaca.MainModule = {};
 ```
+
+示例访问地址: http://www1.tkc8.com/alpaca-spa/index.html
 
 ### 2 使用View
 
 了解完上面的目录结构之后，我们来学习使用Alpaca.View()方法，参看下面的示例。
 
-application/index.html 文件中的内容:
+alpaca-spa/index.html 文件中的内容:
 
 ```
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Alpaca-spa-2.1 JS</title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta charset="UTF-8">
+    <title>alpaca-spa.2.1</title>
 
+    <!-- 简单调整一下样式 -->
+    <link  type="text/css" href="common/css/style.css">
+
+    <!-- 引入alpaca-spa.js-->
     <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
     <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
 
-    <script src="/index/index.js" type="text/javascript"></script>
-    <script src="/index/controller/index.js" type="text/javascript"></script>
+    <!-- 引入main模块main.js-->
+    <script type="text/javascript" src="main/main.js"></script>
+    <!-- 引入main模块下index控制器index.js-->
+    <script type="text/javascript" src="main/controller/index.js"></script>
 
+    <!-- 运行 alpaca-spa Js-->
     <script>
-        $().ready(function () {
-            Alpaca.run("#/index/index/index");
+        $(function () {
+            /* 配置baseUrl。
+             * 由于alpaca请求视图模版是从根目录进行寻址，
+             * 当前项目不在根目录，在根目录的下一级目录中
+             * */
+            Alpaca.Config.baseUrl = "/alpaca-spa/";
+
+            /*启动alpaca，指定默认路由 #/main/index/index */
+            Alpaca.run("#/main/index/index");
         });
     </script>
 </head>
 <body>
-<div id="content"> </div>
 </body>
-</html
+</html>
 
 ```
 
-application/index/index.js 文件中的内容:
+alpaca-spa/main/main.js 文件中的内容:
 
 ```
 /* 1 定义Index模块 */
-Alpaca.IndexModule = {};
+Alpaca.MainModule = {};
+
 ```
 
-application/index/controller/index.js 文件中的内容:
+alpaca-spa/main/controller/index.js 文件中的内容:
 ```
-/* 1 定义Index模块中的IndexController */
-Alpaca.IndexModule.IndexController = {
-	//index动作，创建一个视图
-	indexAction : function (){
-		//视图默认渲染到#content位置，可以通过参数中传递to字段改变渲染位置
-		//视图模板默认位于index/view/index/index.html,
-		//即：默认模板位置为：[模块名]/view/[控制器名]/[动作名].html
-		//可以通过参数中传递template字段改变模块路径
-		var view = new Alpaca.View();
-		return view;
-	},
+/* 1 定义Main模块中的Index控制器 */
+Alpaca.MainModule.IndexController = {
+    //index动作，创建一个视图index
+    indexAction: function () {
+        //视图默认渲染到#content位置，可以通过参数中传递to字段改变渲染位置
+        //视图模板默认位于index/view/index/index.html,可以通过参数中传递template字段改变模块路径
+        //即：默认模板位置为：[模块名]/view/[控制器名]/[动作名].html
+        var view = new Alpaca.View({data:{desc:'我是一条数据，在controller中传递到view视图模版里面！'}});
+
+        //layout 布局视图
+        var layout = new Alpaca.Layout();
+
+        //part 部件视图，默认路由位于view/layout/part中，文件名默认与name属性相同
+        //part 的默认渲染位置与其name属性相同，当然也可以通过to属性指定
+        var part = new Alpaca.Part({name: 'leftMenu'});
+
+        //将part添加到layout中，part的默认渲染位置与其name属性相同，也可以通过to属性指定
+        layout.addChild(part);
+
+        //设置视图的layout
+        view.setLayout(layout);
+
+        //在view中，向layout中传递数据
+        view.setLayoutData({'layoutData': 666});
+
+        //在view中，向part中传递数据
+        view.setPartData({leftMenu: {'partData': 888}});
+
+        return view;
+    },
+
+    //index2动作，创建视图index2
+    index2Action: function () {
+        var view   = new Alpaca.View();
+        var layout = new Alpaca.Layout();
+        var part   = new Alpaca.Part({name: 'leftMenu'});
+        layout.addChild(part);
+        view.setLayout(layout);
+        view.setLayoutData({'layoutData': '666 - 2'});
+        view.setPartData({leftMenu: {'partData': '888 - 2'}});
+        return view;
+    },
+
+    //index3动作，创建视图index3
+    index3Action: function () {
+        var view   = new Alpaca.View();
+        var layout = new Alpaca.Layout();
+        var part   = new Alpaca.Part({name: 'leftMenu'});
+        layout.addChild(part);
+        view.setLayout(layout);
+        view.setLayoutData({'layoutData': '666 -- 3'});
+        view.setPartData({leftMenu: {'partData': '888 -- 3'}});
+        return view;
+    },
 };
 ```
 
-application/index/view/index.html 文件中的内容:
+alpaca-spa/main/index/view/index.html 文件中的内容:
 ```
-hello View !!
-```
-
-在浏览器中，访问网站根目录下的index.html，结果如下：
-
-```
-hello View !
+<div> 我是内容区域：当前显示的是index.html里面的内容 </div>
+<h5>我有一条数据:</h5>
+{{= it.desc }}
 ```
 
-上面的示例中，我们创建了index模块，index控制器，index动作，并且在indexAction中通过Alpaca.View()方法创建了一个视图，运行结果是视图模板中的内容被渲染到了页面的#content位置中。这就是Alpaca.View()的用途。
+alpaca-spa/main/index/view/index2.html 文件中的内容:
+```
+<div> 我是内容区域：当前显示的是index2.html里面的内容 </div>
+```
+
+alpaca-spa/main/index/view/index3.html 文件中的内容:
+```
+<div> 我是内容区域：当前显示的是index3.html里面的内容 </div>
+```
+
+在浏览器中访问: http://www1.tkc8.com/alpaca-spa/index.html
+
+点击按钮，可以看到内容区域切换到对应的页面了，整体布局layout、菜单leftMenu除了数据其他的都没有变化，
+
+上面的示例中，我们创建了Main模块，index控制器，index动作，并且在indexAction中通过Alpaca.View()方法创建了一个视图，运行结果是视图模板中的内容被渲染到了页面的#content位置中。这就是Alpaca.View()的用途。
 
 **Alpaca.View()方法**
 
@@ -1129,7 +1206,7 @@ Alpaca.View(option) 是一个用来创建视图页面的方法，接受一个对
 
 &emsp;&emsp;例如：Alpaca.View({data:{name:'Alpaca-spa'},to:'body',template:'index2'})
 
-+ **option.notFormat**
++ **option.notFormat (一般不用，不推荐使用，可以跳过不看)**
 
 &emsp;&emsp;默认为false，表示系统会自动格式化template参数，如果设置为true，如下例，视图将使用根目录下的index-test.html文件作为视图模板。
 Alpaca.View(template:'/index-test.html',notFormat:true})
@@ -1141,79 +1218,101 @@ Alpaca.View(template:'/index-test.html',notFormat:true})
 
 继续上面介绍View的示例：
 
-修改application/index/controller/index.js 文件中的内容为：
+观察alpaca-spa/main/controller/index.js 文件中的内容：
 
 ```
-/* 1 定义Index模块中的IndexController */
-Alpaca.IndexModule.IndexController = {
-	//index动作，创建一个视图
-	indexAction : function (){
-		//视图默认渲染到#content位置，可以通过参数中传递to字段改变渲染位置
-		//视图模板默认位于index/view/index/index.html
-		//可以通过参数中传递template字段改变模块路径
-		//即：默认模板位置为：[模块名]/view/[控制器名]/[动作名].html
-		var view = new Alpaca.View();
-		return view;
-	},
+indexAction: function () {
+        //视图默认渲染到#content位置，可以通过参数中传递to字段改变渲染位置
+        //视图模板默认位于index/view/index/index.html,可以通过参数中传递template字段改变模块路径
+        //即：默认模板位置为：[模块名]/view/[控制器名]/[动作名].html
+        var view = new Alpaca.View({data:{desc:'我是一条数据，在controller中传递到view视图模版里面！'}});
 
-	//test，测试layout,part。
-	//layout视图默认渲染到body位置, 默认layout文件路径是view/layout/layout.html
-	//part视图默认路径是view/layout/part目录下与其创建参数中name字段同名的html文件
-	//part视图默认渲染位置是 id与其创建参数中name字段同名的元素位置。
-	testAction : function (){
+        //layout 布局视图
+        var layout = new Alpaca.Layout();
 
-		//视图
-		var view = new Alpaca.View();
+        //part 部件视图，默认路由位于view/layout/part中，文件名默认与name属性相同
+        //part 的默认渲染位置与其name属性相同，当然也可以通过to属性指定
+        var part = new Alpaca.Part({name: 'leftMenu'});
 
-		//layout 布局视图
-		var layout = new Alpaca.Layout();
+        //将part添加到layout中，part的默认渲染位置与其name属性相同，也可以通过to属性指定
+        layout.addChild(part);
 
-		//part 部件视图，默认路由位于view/layout/part中，文件名默认与name属性相同
-		//part 的默认渲染位置与其name属性相同，当然也可以通过to属性指定
-		var part = new Alpaca.Part({name:'leftMenu'});
+        //设置视图的layout
+        view.setLayout(layout);
 
-		//将part添加到layout中，part的默认渲染位置与其name属性相同，也可以通过to属性指定
-		layout.addChild(part);
+        //在view中，向layout中传递数据
+        view.setLayoutData({'layoutData': 666});
 
-		//设置视图的layout
-		view.setLayout(layout);
+        //在view中，向part中传递数据
+        view.setPartData({leftMenu: {'partData': 888}});
 
-		//在view中，向layout中传递数据
-		view.setLayoutData({'layoutData':666});
-
-		//在view中，向part中传递数据
-		view.setPartData({leftMenu:{'partData':888}});
-
-		return view;
-	},
-};
+        return view;
+    },
 ```
 
-application/index/view/layout/layout.html 文件中的内容为：
+
+以及：alpaca-spa/main/view/layout/layout.html 文件中的内容为：
 
 ```
-<h2>This layout ! {{=it.layoutData}}</h2>
+<style>
+    .layout-css {
+        border: 1px solid green;
+        padding: 20px;
+    }
 
-<div id="content" style="border: 1px dashed green"></div>
+    #content, #leftMenu {
+        border: 1px dashed green;
+    }
 
-<div id="leftMenu" style="border: 1px dashed green"></div>
+    #content {
+        padding: 20px;
+    }
+</style>
+
+<div class="layout-css">
+
+    <h2> 我是layout! 数据【{{=it.layoutData}}】是在控制器中传递给我的。</h2>
+
+    <h5>左边菜单：</h5>
+    <div id="leftMenu"></div>
+
+    <h5>页面内容区域：</h5>
+    <div id="content"></div>
+
+</div>
 ```
 
-application/index/view/layout/part/leftMenu.html 文件中的内容为：
+alpaca-spa/main/view/layout/part/leftMenu.html 文件中的内容为：
 
 ```
-<div> This is View for leftMenu (part view)  {{=it.partData}}</div>
-```
+<style>
+    .lm-css {
+        padding: 20px;;
+    }
+</style>
 
-在浏览器中访问index.html#/index/index/test,结果如下：
+<div class="lm-css">
+    <h3>我是左边的菜单，请把我放到左面! 数据【{{=it.partData}}】是在控制器中传递给我的。</h3>
+    <h6>点下面的连接可以切换其他页面</h6>
 
-```
+    <button type="button" onclick="toIndex1()"> 页面Index1</button>
+    <button type="button" onclick="toIndex2()"> 页面Index2</button>
+    <button type="button" onclick="toIndex3()"> 页面Index3</button>
+</div>
 
-This layout ! 666
 
-This is View for test action
-This is View for leftMenu (part view) 888
-
+<script>
+    /*必须注意 在模版中写js，注释不可以用“//”*/
+    var toIndex1 = function () {
+        Alpaca.to('#/main/index/index');
+    };
+    var toIndex2 = function () {
+        Alpaca.to('#/main/index/index2');
+    };
+    var toIndex3 = function () {
+        Alpaca.to('#/main/index/index3');
+    }
+</script>
 ```
 
 上面的示例演示了如何使用 layout、part来渲染复杂页面。
@@ -1277,11 +1376,39 @@ Alpaca.Part(option) 是用来创建一个part布局的视图对象的方法，�
 
 ### 4. 如何改变layout、view的默认渲染位置
 
-layout默认渲染位置是 ```<body></body>```位置, 通过设置Alpaca.ViewModel.DefaultLayoutCaptureTo = "body";可以改变layout的默认渲染位置
++ 1、layout默认渲染位置是 ```<body></body>```位置,
 
-view默认渲染位置是 ```<div id="content"> </div> ```位置，通过设置Alpaca.ViewModel.DefaultViewCaptureTo   = "body";可以改变view的默认渲染位置
+通过设置Alpaca.ViewModel.DefaultLayoutCaptureTo = "body"; 可以全局改变layout的默认渲染位置
 
-layout、view的默认渲染位置非常重要，一个路由执行后，url中的hash是否改变，就依据layout、view的默认位置决定。
+如果只修改当前视图的渲染位置，有两种方法：
+
+```
+var layout = new Alpaca.Layout({to:'body'}});
+```
+或者
+
+```
+var layout = new Alpaca.Layout();
+layout.setCaptureTo('.layout-area');
+```
+
++ 2、view默认渲染位置是 ```<div id="content"> </div> ```位置，
+
+通过设置Alpaca.ViewModel.DefaultViewCaptureTo   = "body";可以全局改变view的默认渲染位置
+
+如果只修改当前视图的渲染位置，有两种方法：
+
+```
+var view = new Alpaca.View({to:'#content'}});
+```
+或者
+
+```
+var view = new Alpaca.View();
+view.setCaptureTo('.content-area');
+```
+
+layout、view的默认渲染位置非常重要，一个路由执行后，url中的hash是否改变，就依据layout、view的默认位置决定。而hash是否改变，会影响刷新点击按钮的结果。
 
 
 + 1、如果当前view没有使用layout，```则view的CaptureTo等于DefaultLayoutCaptureTo时```，hash会改变
@@ -1330,6 +1457,8 @@ return view;
 
 如果在控制器中定义了init()方法，那么在执行当前控制器的所有action方法前都会执行init()方法。如果在控制器中定义了release()方法，那么在执行完成当前控制器的所有action方法之后，都会执行release()方法，
 
+模块中也可以定义init()、release()方法。
+
 参考示例：
 
 ```
@@ -1348,7 +1477,7 @@ Alpaca.IndexModule.TestController = {
 };
 ```
 
-### 7. 关于hash何时被改变
+### 8. 关于hash何时被改变
 
 ```
 1：如果未使用layout，则view的CaptureTo等于DefaultLayoutCaptureTo

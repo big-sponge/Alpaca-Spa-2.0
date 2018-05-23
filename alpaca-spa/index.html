@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>alpaca-spa.2.1</title>
+
+    <!-- 简单调整一下样式 -->
+    <link  type="text/css" href="common/css/style.css">
+
+    <!-- 引入alpaca-spa.js-->
+    <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
+
+    <!-- 引入main模块main.js-->
+    <script type="text/javascript" src="main/main.js"></script>
+    <!-- 引入main模块下index控制器index.js-->
+    <script type="text/javascript" src="main/controller/index.js"></script>
+
+    <!-- 运行 alpaca-spa Js-->
+    <script>
+        $(function () {
+            /* 配置baseUrl。
+             * 由于alpaca请求视图模版是从根目录进行寻址，
+             * 当前项目不在根目录，在根目录的下一级目录中
+             * */
+            Alpaca.Config.baseUrl = "/alpaca-spa/";
+
+            /*启动alpaca，指定默认路由 #/main/index/index */
+            Alpaca.run("#/main/index/index");
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

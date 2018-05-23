@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Alpaca - App</title>
+    <script type='text/javascript' src='http://spa.tkc8.com/common/js/jquery-2.1.4.min.js'></script>
+    <script type="text/javascript" src="http://spa.tkc8.com/common/js/alpaca-spa-2.1.js"></script>
+    <script>
+        $().ready(function () {
+            Alpaca.Tpl({data:{text:'Alpaca'},place:'body'});
+        });
+    </script>
+
+</head>
+<body>
+hello {{=it.text}} !
+</body>
+</html>
